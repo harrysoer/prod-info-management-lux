@@ -7,7 +7,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "react-i18next"
 
 const Admin = () => {
-
   const { t: tCommon } = useTranslation('common')
 
   return (

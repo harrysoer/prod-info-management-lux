@@ -4,6 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu"
 import { useRouter } from "next/router"
 import { User } from "react-feather"
 import { useTranslation } from "next-i18next"
+import LocaleSelect from "components/global/LocaleSelect"
 
 const NavBar = () => {
   const router = useRouter()
@@ -33,6 +34,8 @@ const NavBar = () => {
       </Box>
 
       <Box>
+        <LocaleSelect menuListProps={{ color: 'black' }} />
+
         <Menu isLazy>
           <MenuButton
             as={Button}
