@@ -1,6 +1,7 @@
-import { ChakraProvider } from "@chakra-ui/react"
+import { ChakraProvider } from '@chakra-ui/react'
+import { appWithTranslation } from 'next-i18next'
 
-// import "styles/globals.css"
+import 'styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,4 +10,5 @@ function MyApp({ Component, pageProps }) {
     </ChakraProvider>
   )
 }
-export default MyApp
+
+export default appWithTranslation(MyApp)

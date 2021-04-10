@@ -11,8 +11,12 @@ import {
   Tr
 } from "@chakra-ui/react"
 import { ChevronLeft, ChevronRight } from 'react-feather';
+import { useTranslation } from "react-i18next";
 
 const ProductsList = () => {
+
+  const { t: tCommon } = useTranslation('common')
+
   return (
     <>
       <Box
@@ -25,9 +29,9 @@ const ProductsList = () => {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Description</Th>
-              <Th>Brand</Th>
+              <Th>{tCommon('name')}</Th>
+              <Th>{tCommon('description')}</Th>
+              <Th>{tCommon('brand')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -49,9 +53,9 @@ const ProductsList = () => {
           </Tbody>
           <Tfoot>
             <Tr>
-              <Th>Name</Th>
-              <Th>Description</Th>
-              <Th>Brand</Th>
+              <Th>{tCommon('name')}</Th>
+              <Th>{tCommon('description')}</Th>
+              <Th>{tCommon('brand')}</Th>
             </Tr>
           </Tfoot>
         </Table>

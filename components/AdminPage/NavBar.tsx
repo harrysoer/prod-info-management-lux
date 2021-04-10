@@ -3,13 +3,17 @@ import { Box, Text } from "@chakra-ui/layout"
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu"
 import { useRouter } from "next/router"
 import { User } from "react-feather"
+import { useTranslation } from "next-i18next"
 
 const NavBar = () => {
   const router = useRouter()
+  const { t: tAuth, i18n } = useTranslation('auth')
 
   const onLogout = () => {
+    const url = '/'
+
     localStorage.clear()
-    router.replace('/')
+    router.replace(url, url, { locale: i18n.language })
   }
 
   return (
@@ -40,7 +44,7 @@ const NavBar = () => {
             Admin
           </MenuButton>
           <MenuList color="black" textAlign="center">
-            <MenuItem onClick={onLogout}>Logout</MenuItem>
+            <MenuItem onClick={onLogout}>{tAuth('logout')}</MenuItem>
           </MenuList>
         </Menu>
       </Box>

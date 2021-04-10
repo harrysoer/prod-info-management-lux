@@ -2,12 +2,18 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router'
 import { Box, Button, FormControl, Input, Text } from '@chakra-ui/react'
 
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import LocaleSelect from 'components/global/LocaleSelect';
+
 const Home = () => {
   const router = useRouter()
   const { handleSubmit } = useForm();
+  const { t: tAuth, i18n } = useTranslation('auth')
 
   const onSubmit = () => {
-    router.push('/admin')
+    const url = '/admin'
+    router.push(url, url, { locale: i18n.language })
   }
 
   return (
@@ -29,18 +35,22 @@ const Home = () => {
           fontSize="xx-large"
           textAlign="center"
           fontWeight="bold"
-          marginBottom="9"
+          marginBottom="1"
         >
           P.I.M. Admin
         </Text>
 
+        <Box marginBottom="9" textAlign="center">
+          <LocaleSelect />
+        </Box>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <Input placeholder="Email" marginBottom="15px" />
+            <Input placeholder={tAuth('email')} marginBottom="15px" />
             {/* <FormErrorMessage>{form.errors.name}</FormErrorMessage> */}
           </FormControl>
           <FormControl>
-            <Input placeholder="Password" type="password" />
+            <Input placeholder={tAuth('password')} type="password" />
             {/* <FormErrorMessage>{form.errors.name}</FormErrorMessage> */}
           </FormControl>
 
@@ -51,12 +61,18 @@ const Home = () => {
             marginLeft="auto"
             marginTop="20px"
           >
-            Sign-in
+            {tAuth('signIn')}
           </Button>
         </form>
       </Box>
     </Box>
   )
 }
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale, ['auth', 'locales']),
+  },
+})
 
 export default Home

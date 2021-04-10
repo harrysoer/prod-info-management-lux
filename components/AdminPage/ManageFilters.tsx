@@ -1,8 +1,10 @@
-import { Box, Button, Drawer, Input, Menu, MenuButton, MenuItem, MenuList, Portal } from "@chakra-ui/react"
+import { Box, Input } from "@chakra-ui/react"
 import { Search } from 'react-feather';
+import { useTranslation } from "react-i18next";
 
 const ManageFilters = () => {
 
+  const { t: tCommon, i18n } = useTranslation('common')
 
   return (
     <Box
@@ -16,17 +18,17 @@ const ManageFilters = () => {
       </Box>
 
       <Input
-        placeholder="Name"
+        placeholder={(tCommon('name'))}
         marginLeft="22px"
         width="20%"
       />
       <Input
-        placeholder="Description"
+        placeholder={(tCommon('description'))}
         marginLeft="22px"
         width="20%"
       />
       <Input
-        placeholder="Brand"
+        placeholder={(tCommon('brand'))}
         marginLeft="22px"
         width="20%"
       />

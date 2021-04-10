@@ -1,10 +1,15 @@
 import { Button } from "@chakra-ui/button"
-import { Box, Text } from "@chakra-ui/layout"
+import { Box } from "@chakra-ui/layout"
 import ManageFilters from "components/AdminPage/ManageFilters"
 import NavBar from "components/AdminPage/NavBar"
 import ProductsList from "components/AdminPage/ProductsList"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "react-i18next"
 
 const Admin = () => {
+
+  const { t: tCommon } = useTranslation('common')
+
   return (
     <>
       <NavBar />
@@ -15,7 +20,7 @@ const Admin = () => {
           marginBottom="30px"
         >
           <ManageFilters />
-          <Button colorScheme="green">Add Item</Button>
+          <Button colorScheme="green">{tCommon('addItem')}</Button>
         </Box>
 
         <ProductsList />
@@ -23,5 +28,11 @@ const Admin = () => {
     </>
   )
 }
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale, ['auth', 'common', 'locales']),
+  },
+})
 
 export default Admin
