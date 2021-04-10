@@ -24,12 +24,12 @@ const Home = () => {
         minWidth="400px"
       >
         <Text
-          fontSize="2xl"
+          fontSize="xx-large"
           textAlign="center"
           fontWeight="bold"
           marginBottom="9"
         >
-          Login
+          P.I.M. Admin
         </Text>
 
         <form onSubmit={onSubmit}>
