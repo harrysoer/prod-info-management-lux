@@ -1,8 +1,10 @@
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router'
 import { Box, Button, FormControl, Input, Text } from '@chakra-ui/react'
 
 const Home = () => {
   const router = useRouter()
+  const { handleSubmit } = useForm();
 
   const onSubmit = () => {
     router.push('/admin')
@@ -32,7 +34,7 @@ const Home = () => {
           P.I.M. Admin
         </Text>
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
             <Input placeholder="Email" marginBottom="15px" />
             {/* <FormErrorMessage>{form.errors.name}</FormErrorMessage> */}
