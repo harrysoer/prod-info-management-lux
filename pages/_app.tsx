@@ -1,15 +1,12 @@
-import Axios from 'axios'
-import { configure } from 'axios-hooks'
 import { ChakraProvider } from '@chakra-ui/react'
 import { appWithTranslation } from 'next-i18next'
+import initAxios from 'utils/initAxios'
 
 import 'styles/globals.css'
 
-const axios = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL
-})
+const isClientSide = typeof window !== 'undefined'
 
-configure({ axios })
+initAxios(isClientSide ? localStorage.getItem('token') : '')
 
 function MyApp({ Component, pageProps }) {
   return (

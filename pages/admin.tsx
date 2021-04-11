@@ -7,11 +7,13 @@ import apiUrls from 'utils/apiUrls';
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import ProductsList from "components/AdminPage/ProductsList"
 import AddItem from "components/AdminPage/AddItem"
+import { useRouter } from "next/router"
 
 const Admin = () => {
 
-  const [page, setPage] = useState(1)
+  const router = useRouter()
 
+  const [page, setPage] = useState(1)
   const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
   const [brand, setBrand] = useState('')
@@ -28,25 +30,39 @@ const Admin = () => {
     }
   )
 
+  const onGetList = async (params: Record<string, any>) => {
+
+    try {
+      await getList({
+        params
+      })
+    } catch (error) {
+      if (error.response) {
+        const { statusText } = error.response
+        if (statusText === 'Unauthorized') {
+          router.push('/')
+        }
+      }
+    }
+
+  }
+
   useEffect(() => {
-    getList({
-      params: {
+    if (category.length || description.length || brand.length)
+      onGetList({
         p: 1,
         category,
         description,
         brand
-      }
-    })
+      })
   }, [category, description, brand])
 
   useEffect(() => {
-    getList({
-      params: {
-        p: page,
-        category,
-        description,
-        brand
-      }
+    onGetList({
+      p: page,
+      category,
+      description,
+      brand
     })
   }, [page])
 

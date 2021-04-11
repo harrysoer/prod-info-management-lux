@@ -3,6 +3,7 @@ import Cors from "cors";
 import type { NextApiRequest, NextApiResponse } from "next";
 import corsMiddleware from "utils/corsMiddleware";
 import chunk from "utils/chunk";
+import token from "utils/token";
 
 let mockData = [
   {
@@ -310,6 +311,11 @@ const cors = Cors({
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await corsMiddleware(req, res, cors);
+
+  if (req.headers.authorization !== token) {
+    res.statusCode = 401;
+    res.json({ message: "unauthorized" });
+  }
 
   switch (req.method) {
     case "GET": {

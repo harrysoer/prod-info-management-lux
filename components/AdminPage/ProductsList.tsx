@@ -1,11 +1,12 @@
 import { AxiosPromise, AxiosRequestConfig } from "axios";
 import useAxios, { RefetchOptions } from "axios-hooks";
 import apiUrls from "utils/apiUrls";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Box,
   IconButton,
+  Skeleton,
   Table,
   Tbody,
   Td,
@@ -21,17 +22,19 @@ import ProductModalForm from "components/global/ProductModalForm"
 import { ChevronLeft, ChevronRight, Edit3 } from 'react-feather';
 import { ProductList, ProductInputs } from "types";
 
+
 type ProductsListProps = {
   data: ProductList,
   loading: boolean
   page: number,
   numberOfPages: number,
   setPage: Dispatch<SetStateAction<number>>
-  refetchList:  (config?: AxiosRequestConfig, options?: RefetchOptions) => AxiosPromise<any>
+  refetchList: (config?: AxiosRequestConfig, options?: RefetchOptions) => AxiosPromise<any>
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({
   data = [],
+  loading: loadingList,
   page = 1,
   numberOfPages = 1,
   setPage,
@@ -52,6 +55,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
     }
   )
 
+  const placeHolderLength = (n: number) => Array.from({ length: n }, (v, i) => i)
+
   const onPrev = () => setPage(page - 1)
   const onNext = () => setPage(page + 1)
 
@@ -60,10 +65,10 @@ const ProductsList: React.FC<ProductsListProps> = ({
     onOpen()
   }
 
-  const onSubmitUpdate = (newValues: ProductInputs) => {
+  const onSubmitUpdate = async (newValues: ProductInputs) => {
 
     try {
-      putList({
+      await putList({
         data: newValues
       })
       refetchList()
@@ -101,21 +106,45 @@ const ProductsList: React.FC<ProductsListProps> = ({
             </Tr>
           </Thead>
           <Tbody>
-            {data.map(product => (
-              <Tr key={product.id}>
-                <Td>{product.description}</Td>
-                <Td>{product.category}</Td>
-                <Td>{product.brand}</Td>
-                <Td>
-                  <IconButton
-                    colorScheme="blue"
-                    aria-label="edit"
-                    onClick={() => onEdit(product)}
-                    icon={<Edit3 size={16} />}
-                  />
-                </Td>
-              </Tr>
-            ))}
+            {data.length && !loadingList
+              ? data.map(product => (
+                <Tr key={product.id}>
+                  <Td>
+                    {product.description}
+                  </Td>
+                  <Td>
+                    {product.category}
+                  </Td>
+                  <Td>
+                    {product.brand}
+                  </Td>
+                  <Td>
+                    <IconButton
+                      colorScheme="blue"
+                      aria-label="edit"
+                      onClick={() => onEdit(product)}
+                      icon={<Edit3 size={16} />}
+                    />
+                  </Td>
+                </Tr>
+              ))
+              : placeHolderLength(10).map(key => (
+                <Tr key={key}>
+                  <Td>
+                    <Skeleton height="20px" />
+                  </Td>
+                  <Td>
+                    <Skeleton height="20px" />
+                  </Td>
+                  <Td>
+                    <Skeleton height="20px" />
+                  </Td>
+                  <Td>
+                    <Skeleton height="40px" width="40px" />
+                  </Td>
+                </Tr>
+              ))
+            }
           </Tbody>
           <Tfoot>
             <Tr>

@@ -29,7 +29,7 @@ const AddItem: React.FC<AddItemProps> = ({ refetchList }) => {
 
   const onSubmitAdd = async (values: ProductInputs) => {
     try {
-      postList({
+      await postList({
         data: values
       })
       refetchList()
