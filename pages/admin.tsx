@@ -2,12 +2,15 @@ import { Button } from "@chakra-ui/button"
 import { Box } from "@chakra-ui/layout"
 import ManageFilters from "components/AdminPage/ManageFilters"
 import NavBar from "components/AdminPage/NavBar"
-import ProductsList from "components/AdminPage/ProductsList"
+import useAxios from 'axios-hooks'
+import apiUrls from 'utils/apiUrls';
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "react-i18next"
+import ProductsList from "components/AdminPage/ProductsList"
+import AddItem from "components/AdminPage/AddItem"
 
 const Admin = () => {
-  const { t: tCommon } = useTranslation('common')
+
+  const [{ data, loading }] = useAxios(apiUrls.productsList)
 
   return (
     <>
@@ -19,10 +22,13 @@ const Admin = () => {
           marginBottom="30px"
         >
           <ManageFilters />
-          <Button colorScheme="green">{tCommon('addItem')}</Button>
+          <AddItem />
         </Box>
 
-        <ProductsList />
+        <ProductsList
+          data={data?.productsList || []}
+          loading={loading}
+        />
       </Box>
     </>
   )

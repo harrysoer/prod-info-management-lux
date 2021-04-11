@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Box,
   IconButton,
@@ -11,9 +12,14 @@ import {
   Tr
 } from "@chakra-ui/react"
 import { ChevronLeft, ChevronRight } from 'react-feather';
-import { useTranslation } from "react-i18next";
+import { ProductList } from "types";
 
-const ProductsList = () => {
+type ProductsListProps = {
+  data: ProductList,
+  loading: boolean
+}
+
+const ProductsList: React.FC<ProductsListProps> = ({ data = [] }) => {
 
   const { t: tCommon } = useTranslation('common')
 
@@ -35,21 +41,13 @@ const ProductsList = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>Scarf</Td>
-              <Td>Short Scarf</Td>
-              <Td>Gucci</Td>
-            </Tr>
-            <Tr>
-              <Td>Shoe</Td>
-              <Td>Size 9</Td>
-              <Td>Loui Viton</Td>
-            </Tr>
-            <Tr>
-              <Td>Shirt</Td>
-              <Td>Red medium</Td>
-              <Td>Lacoste</Td>
-            </Tr>
+            {data.map(product => (
+              <Tr key={product.id}>
+                <Td>{product.name}</Td>
+                <Td>{product.description}</Td>
+                <Td>{product.brand}</Td>
+              </Tr>
+            ))}
           </Tbody>
           <Tfoot>
             <Tr>
@@ -62,6 +60,7 @@ const ProductsList = () => {
       </Box>
       <Box
         marginTop="20px"
+        marginBottom="50px"
         display="flex"
         alignItems="center"
         justifyContent="flex-end"

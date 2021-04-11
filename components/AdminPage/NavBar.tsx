@@ -19,7 +19,6 @@ const NavBar = () => {
 
   return (
     <Box
-      width="100vw"
       paddingY="20px"
       paddingX="15px"
       display="flex"

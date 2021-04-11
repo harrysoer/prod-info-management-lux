@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const ManageFilters = () => {
 
-  const { t: tCommon, i18n } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
 
   return (
     <Box
