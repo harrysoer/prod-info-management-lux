@@ -1,5 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import Cors from "cors";
 import type { NextApiRequest, NextApiResponse } from "next";
+import corsMiddleware from "utils/corsMiddleware";
 
 const mockData = [
   {
@@ -149,7 +151,14 @@ const mockData = [
   },
 ];
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ["GET", "HEAD"],
+});
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await corsMiddleware(req, res, cors);
+
   res.statusCode = 200;
   res.json({
     productsList: mockData,
