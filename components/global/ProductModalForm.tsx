@@ -118,7 +118,7 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
       <ModalContent>
         <form onSubmit={handleSubmit(onFormatSubmit)}>
 
-          <ModalHeader>{defaultValues ? "Edit" : "Add"}</ModalHeader>
+          <ModalHeader>{defaultValues ? tCommon('editItem') : tCommon('addItem')}</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
