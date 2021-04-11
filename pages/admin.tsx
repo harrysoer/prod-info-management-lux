@@ -73,6 +73,7 @@ const Admin = () => {
           numberOfPages={data?.numberOfPages || 1}
           loading={loading}
           setPage={setPage}
+          refetchList={getList}
         />
       </Box>
     </>

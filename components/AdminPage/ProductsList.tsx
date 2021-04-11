@@ -1,4 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
+import { AxiosPromise, AxiosRequestConfig } from "axios";
+import useAxios, { RefetchOptions } from "axios-hooks";
+import apiUrls from "utils/apiUrls";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -10,10 +13,13 @@ import {
   Tfoot,
   Th,
   Thead,
-  Tr
+  Tr,
+  useDisclosure
 } from "@chakra-ui/react"
-import { ChevronLeft, ChevronRight } from 'react-feather';
-import { ProductList } from "types";
+import { useToast } from "@chakra-ui/toast"
+import ProductModalForm from "components/global/ProductModalForm"
+import { ChevronLeft, ChevronRight, Edit3 } from 'react-feather';
+import { ProductList, ProductInputs } from "types";
 
 type ProductsListProps = {
   data: ProductList,
@@ -21,6 +27,7 @@ type ProductsListProps = {
   page: number,
   numberOfPages: number,
   setPage: Dispatch<SetStateAction<number>>
+  refetchList:  (config?: AxiosRequestConfig, options?: RefetchOptions) => AxiosPromise<any>
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({
@@ -28,12 +35,52 @@ const ProductsList: React.FC<ProductsListProps> = ({
   page = 1,
   numberOfPages = 1,
   setPage,
+  refetchList
 }) => {
 
+  const toast = useToast()
+  const [formInput, setFormInput] = useState<ProductInputs | null>(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { t: tCommon } = useTranslation('common')
+  const [{ loading }, putList] = useAxios(
+    {
+      url: apiUrls.productsList,
+      method: 'PUT',
+    },
+    {
+      manual: true
+    }
+  )
 
   const onPrev = () => setPage(page - 1)
   const onNext = () => setPage(page + 1)
+
+  const onEdit = (product: ProductInputs) => {
+    setFormInput(product)
+    onOpen()
+  }
+
+  const onSubmitUpdate = (newValues: ProductInputs) => {
+
+    try {
+      putList({
+        data: newValues
+      })
+      refetchList()
+
+      onClose()
+
+      toast({
+        title: tCommon('successUpdate'),
+        status: "success",
+      })
+    } catch (_) {
+      toast({
+        title: tCommon('somethingWentWrong'),
+        status: "error",
+      })
+    }
+  }
 
   return (
     <>
@@ -50,6 +97,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
               <Th>{tCommon('description')}</Th>
               <Th>{tCommon('category')}</Th>
               <Th>{tCommon('brand')}</Th>
+              <Th />
             </Tr>
           </Thead>
           <Tbody>
@@ -58,6 +106,14 @@ const ProductsList: React.FC<ProductsListProps> = ({
                 <Td>{product.description}</Td>
                 <Td>{product.category}</Td>
                 <Td>{product.brand}</Td>
+                <Td>
+                  <IconButton
+                    colorScheme="blue"
+                    aria-label="edit"
+                    onClick={() => onEdit(product)}
+                    icon={<Edit3 size={16} />}
+                  />
+                </Td>
               </Tr>
             ))}
           </Tbody>
@@ -66,6 +122,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
               <Th>{tCommon('description')}</Th>
               <Th>{tCommon('category')}</Th>
               <Th>{tCommon('brand')}</Th>
+              <Th />
             </Tr>
           </Tfoot>
         </Table>
@@ -97,6 +154,13 @@ const ProductsList: React.FC<ProductsListProps> = ({
           onClick={onNext}
         />
       </Box>
+
+      <ProductModalForm
+        defaultValues={formInput}
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={onSubmitUpdate}
+      />
     </>
   )
 }

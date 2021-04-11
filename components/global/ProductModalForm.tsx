@@ -14,11 +14,11 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control"
 import { Input } from "@chakra-ui/input"
 import { BrandEnum, CategoryEnum, ProductInputs } from "types"
 import { Select } from '@chakra-ui/select';
+import { useEffect } from 'react';
 
 const categoryOptions = Object.values(CategoryEnum)
 const brandOptions = Object.values(BrandEnum)
 
-console.log({ categoryOptions, brandOptions })
 type ProductModalFormProps = {
   isOpen: boolean;
   onClose?: () => void;
@@ -27,20 +27,18 @@ type ProductModalFormProps = {
 }
 
 const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOpen, onClose, onSubmit }) => {
-  const { handleSubmit, control } = useForm<ProductInputs>({
+  const { handleSubmit, control, reset } = useForm<ProductInputs>({
     defaultValues: {
-      ...(
-        defaultValues ||
-        {
-          category: categoryOptions[0],
-          brand: categoryOptions[0]
-        }
-      ),
+      category: categoryOptions[0],
+      brand: categoryOptions[0]
     }
   });
 
   const { t: tCommon } = useTranslation('common')
 
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues])
 
   const onFormatSubmit = (values: ProductInputs) => {
     values.price = Number(values.price)

@@ -359,7 +359,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     case "POST": {
       const body = req.body;
-    
+
       const newId = mockData[mockData.length - 1];
       const newData = {
         id: newId,
@@ -373,7 +373,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       break;
     }
+
+    case "PUT": {
+      const newData = req.body;
+
+      if (!!newData.id) {
+        const index = mockData.findIndex((data) => newData.id === data.id);
+
+        if (index >= 0) {
+          mockData[index] = newData;
+
+          res.statusCode = 200;
+          res.json({ success: true });
+        } else {
+          res.statusCode = 500;
+          res.json({ message: "id doesn't exist" });
+        }
+      } else {
+        res.statusCode = 500;
+        res.json({ message: "id is required" });
+      }
+      break;
+    }
   }
-
-
 };

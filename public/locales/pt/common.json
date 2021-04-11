@@ -5,5 +5,8 @@
   "brand": "Marca",
   "material": "Material",
   "photo": "Foto",
-  "price": "Preço"
+  "price": "Preço",
+  "successUpdate": "Atualizado Com Sucesso",
+  "successAdded": "Adicionado Com Sucesso",
+  "somethingWentWrong": "Algo Deu Errado"
 }
