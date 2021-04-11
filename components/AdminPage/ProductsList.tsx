@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -17,11 +18,22 @@ import { ProductList } from "types";
 type ProductsListProps = {
   data: ProductList,
   loading: boolean
+  page: number,
+  numberOfPages: number,
+  setPage: Dispatch<SetStateAction<number>>
 }
 
-const ProductsList: React.FC<ProductsListProps> = ({ data = [] }) => {
+const ProductsList: React.FC<ProductsListProps> = ({
+  data = [],
+  page = 1,
+  numberOfPages = 1,
+  setPage,
+}) => {
 
   const { t: tCommon } = useTranslation('common')
+
+  const onPrev = () => setPage(page - 1)
+  const onNext = () => setPage(page + 1)
 
   return (
     <>
@@ -35,24 +47,24 @@ const ProductsList: React.FC<ProductsListProps> = ({ data = [] }) => {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>{tCommon('name')}</Th>
               <Th>{tCommon('description')}</Th>
+              <Th>{tCommon('category')}</Th>
               <Th>{tCommon('brand')}</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data.map(product => (
               <Tr key={product.id}>
-                <Td>{product.name}</Td>
                 <Td>{product.description}</Td>
+                <Td>{product.category}</Td>
                 <Td>{product.brand}</Td>
               </Tr>
             ))}
           </Tbody>
           <Tfoot>
             <Tr>
-              <Th>{tCommon('name')}</Th>
               <Th>{tCommon('description')}</Th>
+              <Th>{tCommon('category')}</Th>
               <Th>{tCommon('brand')}</Th>
             </Tr>
           </Tfoot>
@@ -66,20 +78,23 @@ const ProductsList: React.FC<ProductsListProps> = ({ data = [] }) => {
         justifyContent="flex-end"
       >
         <IconButton
-          disabled
           size="lg"
           colorScheme="gray"
           aria-label="page-previous"
           icon={<ChevronLeft size={20} />}
+          disabled={page === 1}
+          onClick={onPrev}
         />
 
-        <Text mx="20px">1 / 5</Text>
+        <Text mx="20px">{page} / {numberOfPages}</Text>
 
         <IconButton
           size="lg"
           colorScheme="gray"
           aria-label="page-next"
           icon={<ChevronRight size={20} />}
+          disabled={numberOfPages === page}
+          onClick={onNext}
         />
       </Box>
     </>

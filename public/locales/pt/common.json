@@ -1,6 +1,9 @@
 {
   "addItem": "Adicionar Item",
-  "name": "Nome",
+  "category": "Categoria",
   "description": "Descrição",
-  "brand": "Marca"
+  "brand": "Marca",
+  "material": "Material",
+  "photo": "Foto",
+  "price": "Preço"
 }
