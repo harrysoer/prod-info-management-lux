@@ -360,7 +360,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     case "POST": {
       const body = req.body;
 
-      const newId = mockData[mockData.length - 1];
+      const newId = mockData.length + 1;
       const newData = {
         id: newId,
         ...body,

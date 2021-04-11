@@ -37,8 +37,17 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
   const { t: tCommon } = useTranslation('common')
 
   useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues])
+    if (defaultValues) {
+      reset(defaultValues)
+    }
+
+    if (isOpen && !defaultValues) {
+      reset({
+        category: categoryOptions[0],
+        brand: categoryOptions[0]
+      })
+    }
+  }, [defaultValues, isOpen])
 
   const onFormatSubmit = (values: ProductInputs) => {
     values.price = Number(values.price)
@@ -168,7 +177,7 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
         </form>
 
       </ModalContent>
-    </Modal>
+    </Modal >
   )
 }
 
