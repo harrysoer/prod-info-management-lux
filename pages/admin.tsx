@@ -38,8 +38,8 @@ const Admin = () => {
       })
     } catch (error) {
       if (error.response) {
-        const { statusText } = error.response
-        if (statusText === 'Unauthorized') {
+        const { status } = error.response
+        if (status === 401) {
           router.push('/')
         }
       }
