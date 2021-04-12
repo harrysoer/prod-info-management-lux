@@ -306,7 +306,7 @@ let mockData = [
 
 // Initializing the cors middleware
 const cors = Cors({
-  origin: "*",
+  origin: true,
   methods: ["GET", "PUT", "POST", "OPTIONS", "HEAD"],
 });
 
@@ -315,6 +315,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.headers.authorization !== token) {
     res.statusCode = 401;
+    res.send("Unauthorize");
   }
 
   switch (req.method) {
