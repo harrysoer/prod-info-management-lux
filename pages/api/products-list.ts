@@ -314,6 +314,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await corsMiddleware(req, res, cors);
 
   if (req.headers.authorization !== token) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.statusCode = 401;
     res.send("Unauthorize");
   }
