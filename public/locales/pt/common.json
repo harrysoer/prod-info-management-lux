@@ -5,8 +5,9 @@
   "description": "Descrição",
   "brand": "Marca",
   "material": "Material",
-  "photo": "Foto",
+  "photos": "Fotos",
   "price": "Preço",
+  "save": "Salve",
   "successUpdate": "Atualizado Com Sucesso",
   "successAdded": "Adicionado Com Sucesso",
   "somethingWentWrong": "Algo Deu Errado"

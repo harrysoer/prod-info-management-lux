@@ -5,8 +5,9 @@
   "description": "Description",
   "brand": "Brand",
   "material": "Material",
-  "photo": "Photo",
+  "photos": "Photos",
   "price": "Price",
+  "save": "Save",
   "successUpdate": "Successfully Updated",
   "successAdded": "Successfully Added",
   "somethingWentWrong": "Something Went wrong"

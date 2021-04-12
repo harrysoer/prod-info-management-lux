@@ -49,7 +49,7 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
     }
   }, [defaultValues, isOpen])
 
-  const onFormatSubmit = (values: ProductInputs) => {
+  const onValidateSubmit = (values: ProductInputs) => {
     values.price = Number(values.price)
 
     onSubmit(values)
@@ -116,7 +116,7 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <form onSubmit={handleSubmit(onFormatSubmit)}>
+        <form onSubmit={handleSubmit(onValidateSubmit)}>
 
           <ModalHeader>{defaultValues ? tCommon('editItem') : tCommon('addItem')}</ModalHeader>
           <ModalCloseButton />
@@ -171,7 +171,7 @@ const ProductModalForm: React.FC<ProductModalFormProps> = ({ defaultValues, isOp
 
           <ModalFooter>
             <Button colorScheme="blue" type="submit">
-              Save
+              {tCommon('save')}
             </Button>
           </ModalFooter>
         </form>
